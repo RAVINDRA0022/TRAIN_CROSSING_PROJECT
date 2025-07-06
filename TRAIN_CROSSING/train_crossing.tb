@@ -1,0 +1,57 @@
+`timescale 1ns / 1ps
+
+module Train_crossing_tb;
+
+    reg clk;
+    reg rst;
+    reg train_sensor;
+    reg train_clear;
+
+    wire gate;
+
+    Train_crossing uut (
+        .clk(clk),
+        .rst(rst),
+        .train_sensor(train_sensor),
+        .train_clear(train_clear),
+        .gate(gate)
+    );
+
+    always #5 clk = ~clk;
+
+    initial begin
+        clk = 0;
+        rst = 1;
+        train_sensor = 0;
+        train_clear = 0;
+
+        #20;
+        rst = 0;
+
+        #20;
+
+        train_sensor = 1;
+        #20;
+
+        train_sensor = 0;  
+        train_clear = 0;
+        #40;
+
+        train_clear = 1;
+        #20;
+
+        train_sensor = 0;
+        train_clear = 0;
+        #40;
+
+        train_sensor = 1;
+        #20;
+        train_sensor = 0;
+        #40;
+        train_clear = 1;
+        #20;
+
+        $stop;
+    end
+
+endmodule
